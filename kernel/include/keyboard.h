@@ -4,10 +4,12 @@
 #include "stdafx.h"
 #include "terminal.h"
 
+//TODO rewrite this hgandle to send "special" keys easier
+//Possibly add an enum list or something
 struct Handle // The handle which contains data about the keyboard interrupt
 {
     unsigned char status;
-    char keycode;
+    unsigned char keycode;
     unsigned char key;
 };
 #define HANDLE Handle

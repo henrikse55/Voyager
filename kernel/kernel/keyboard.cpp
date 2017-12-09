@@ -59,38 +59,37 @@ Keyboard* get_Keyboard(){
 }
 
 void kb_init(void){
+    write_port(0x21, 0xFD);
+
     keyboard.EnableCurser(0, 15);
     keyboard.UpdateCursor(keyboard.term->GetTerminalColumn(), keyboard.term->GetTerminalRow());
-    write_port(0x21, 0xFD);
 }
 
 bool Shift = false;
 void keyboard_handler_main(void){
     unsigned char status;
-    char keycode;
     unsigned char ukeycode;
 
     status = read_port(KEYBOARD_STATUS_PORT);
     if(status & 0x01){
-        keycode = read_port(KEYBOARD_DATA_PORT);
         ukeycode = read_port(KEYBOARD_DATA_PORT);
 
-        if(ukeycode == 0x36)
+        switch(ukeycode)
         {
-            Shift = true;
-            return;
-        }else if(ukeycode == 0xB6){
-            Shift = false;
-            return;
-        }
+            case 0x36: //Shift Pressed
+                Shift = true;
+                return;
 
-        if(ukeycode == 0x0E)
-        {
-            keyboard.term->Backspace();
-            return;
-        }else if(ukeycode == 0x8E)
-        {
-            return;
+            case 0xB6: //Shift Released
+                Shift = false;
+                return;
+
+            case 0x0E: //Backspace pressed
+                keyboard.term->Backspace();
+                keyboard.UpdateCursor(keyboard.term->GetTerminalColumn(), keyboard.term->GetTerminalRow());   
+                return;
+            case 0x8E: //Backspace Released
+                return;
         }
 
         if(ukeycode >= 128)
@@ -109,7 +108,7 @@ void keyboard_handler_main(void){
 
         HANDLE handle = {
             status,
-            keycode,
+            ukeycode,
             key,
         };
 
