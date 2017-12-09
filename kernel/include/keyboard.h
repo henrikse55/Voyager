@@ -1,8 +1,19 @@
 #ifndef __KEYBOARD_H
 #define __KEYBOARD_H
+#define HANDLE Handle
 
 #include "stdafx.h"
 #include "terminal.h"
+
+enum SpecialKeys
+{
+    Shift_Pressed = 0x36,
+    Shift_Released = 0xB6,
+    Backspace_Pressed = 0x0E,
+    Backspace_Released = 0x8E,
+    Escape_Pressed = 0x01,
+    Escape_Released = 0x81,
+};
 
 //TODO rewrite this hgandle to send "special" keys easier
 //Possibly add an enum list or something
@@ -11,8 +22,8 @@ struct Handle // The handle which contains data about the keyboard interrupt
     unsigned char status;
     unsigned char keycode;
     unsigned char key;
+    SpecialKeys skey;
 };
-#define HANDLE Handle
 
 //TODO Implement proxy levels deppending on cpu access levels
 struct Listener //Some data about the listener to locate the functions

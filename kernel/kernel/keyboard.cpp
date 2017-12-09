@@ -76,19 +76,26 @@ void keyboard_handler_main(void){
 
         switch(ukeycode)
         {
-            case 0x36: //Shift Pressed
+            case SpecialKeys::Shift_Pressed: //Shift Pressed
                 Shift = true;
                 return;
 
-            case 0xB6: //Shift Released
+            case SpecialKeys::Shift_Released: //Shift Released
                 Shift = false;
                 return;
 
-            case 0x0E: //Backspace pressed
+            case SpecialKeys::Backspace_Pressed: //Backspace pressed
                 keyboard.term->Backspace();
                 keyboard.UpdateCursor(keyboard.term->GetTerminalColumn(), keyboard.term->GetTerminalRow());   
                 return;
-            case 0x8E: //Backspace Released
+            case SpecialKeys::Backspace_Released: //Backspace Released
+                return;
+            
+            case SpecialKeys::Escape_Pressed: //Escape Released
+                write_port(0xF4, 0x00);
+                return;
+
+            case SpecialKeys::Escape_Released://Escape Pressed
                 return;
         }
 
@@ -112,10 +119,10 @@ void keyboard_handler_main(void){
             key,
         };
 
-        keyboard.FireHandle(handle);
-
         keyboard.term->Putchar(handle.key);
         keyboard.UpdateCursor(keyboard.term->GetTerminalColumn(), keyboard.term->GetTerminalRow());
+
+        keyboard.FireHandle(handle);
     }
 }
 
