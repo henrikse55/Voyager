@@ -4,15 +4,17 @@ ASSEMBLER = i686-elf-as
 
 OBJECTS = bin/kernel/stdafx.o bin/kernel/terminal.o bin/kernel/kernel.o bin/boot.o bin/kernel/keyboard.o bin/kernel/Port.o
 
+.PHONY: default
+
 default:
-	make kernel
+	make system
 	make bootstrap
 	make link
 
 bootstrap:
 	$(ASSEMBLER) boot.s -o bin/boot.o
 
-kernel:
+system:
 
 	$(CC) -c kernel/kernel/terminal.cpp -o bin/kernel/terminal.o $(CFLAGS)
 	$(CC) -c kernel/kernel/kernel.cpp -o bin/kernel/kernel.o $(CFLAGS)
@@ -23,7 +25,8 @@ kernel:
 
 link:
 	
-	$(CC) -T linker.ld -o bin/kernel.bin -ffreestanding -O2 -nostdlib -Wall $(OBJECTS) -lgcc
+	$(CC) -T linker.ld -o bin/kernel.bin -ffreestanding -O2 -nostdlib -Wall $(OBJECTS) -lgcc -g
+	objcopy --only-keep-debug bin/kernel.bin bin/kernel.b
 
 clean:
 	rm bin/kernel/terminal.o

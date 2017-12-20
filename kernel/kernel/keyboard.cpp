@@ -76,14 +76,19 @@ void keyboard_handler_main(void){
 
         switch(ukeycode)
         {
-            case SpecialKeys::Shift_Pressed: //Shift Pressed
+            case SpecialKeys::Right_Shift_Pressed: //Shift Pressed
                 Shift = true;
                 return;
-
-            case SpecialKeys::Shift_Released: //Shift Released
+            case SpecialKeys::Right_Shift_Released: //Shift Released
                 Shift = false;
                 return;
-
+            case SpecialKeys::Left_Shift_Pressed:
+                Shift = true;
+                return;
+            case SpecialKeys::Left_Shift_Released:
+                Shift = false;
+                return;
+            
             case SpecialKeys::Backspace_Pressed: //Backspace pressed
                 keyboard.term->Backspace();
                 keyboard.UpdateCursor(keyboard.term->GetTerminalColumn(), keyboard.term->GetTerminalRow());   

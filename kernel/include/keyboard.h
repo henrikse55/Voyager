@@ -7,8 +7,11 @@
 
 enum SpecialKeys
 {
-    Shift_Pressed = 0x36,
-    Shift_Released = 0xB6,
+    None = 0,
+    Right_Shift_Pressed = 0x36,
+    Right_Shift_Released = 0xB6,
+    Left_Shift_Pressed = 0x2A,
+    Left_Shift_Released = 0xAA,
     Backspace_Pressed = 0x0E,
     Backspace_Released = 0x8E,
     Escape_Pressed = 0x01,
@@ -22,7 +25,7 @@ struct Handle // The handle which contains data about the keyboard interrupt
     unsigned char status;
     unsigned char keycode;
     unsigned char key;
-    SpecialKeys skey;
+    SpecialKeys skey = SpecialKeys::None;
 };
 
 //TODO Implement proxy levels deppending on cpu access levels

@@ -4,6 +4,7 @@
 //Includes goes here
 #include <stddef.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #if !defined(__cplusplus)
 #include <stdbool.h>

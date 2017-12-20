@@ -45,5 +45,7 @@ void kernel_main(void)
     }
     terminal.Writestring("Hello, kernel world!\n");
 
+    keyboard->UpdateCursor(terminal.GetTerminalColumn(), terminal.GetTerminalRow());
+
     while(1);
 }
